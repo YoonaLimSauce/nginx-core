@@ -74,7 +74,7 @@ bool CConfig::Load(const char* p_conf_name)
                                 line_buffer[strlen(line_buffer) - 1] = '\0';
                         }
                 }
- 
+
                 // 获取到已处理的有效配置信息字符数组
                 // Example: ListenPort = 80
                 char* p_temporarily = strchr(line_buffer, '=');

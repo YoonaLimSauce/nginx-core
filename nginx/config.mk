@@ -8,7 +8,7 @@ export INCLUDE_PATH = $(BUILD_ROOT)/_include
 
 # 定义要编译的目录
 export BUILD_DIR = $(BUILD_ROOT)/signal/ \
-                                        $(BUILD_ROOT)/app/
+					$(BUILD_ROOT)/app/
 
 # 编译时是否生成调试信息
 # 调试工具Valgrind工具集会输出更多的调试信息

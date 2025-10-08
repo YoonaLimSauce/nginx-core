@@ -19,4 +19,7 @@ commit ID: ac9ef6986034a26f619f8b501d9c8c685a1c75c5
 项目投入实际应用, 应当采用Json、XML等标准格式并结合优秀的相关C语言库进行配置文件的读取、写入
 
 commit ID: 7644b171365768833d9f3357eeea487260d86132
-按照书籍代码提供的Makefile代码进行书写，同时重新书写李云的《驾驭Makefile》，之后可能会对Makefile代码进行修订，不再单独在git中展示修订差异，可以学习cmake、xmake代替使用make+makefile的编译控制模式
+按照书籍代码提供的Makefile代码进行书写
+
+commit ID: adb41af5a35aad51ddd3509492251f3588e9be26
+重新书写李云的《驾驭Makefile》，之后可能会对Makefile代码进行修订，不再单独在git中展示修订差异，可以学习cmake、xmake代替使用make+makefile的编译控制模式

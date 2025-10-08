@@ -1,6 +1,8 @@
 #ifndef __NGX_C_CONF_H__
 #define __NGX_C_CONF_H__
 
+#include <vector>
+
 #include <pthread.h>
 #include <stdlib.h>
 
@@ -22,6 +24,20 @@ private:
 public:
 	~CConfig();
 
+	// 内部类自动析构单例模式创建的单例变量
+	class CConfigDestructor
+	{
+	public:
+		~CConfigDestructor()
+		{
+			if(NULL !=CConfig::m_instance)
+			{
+				delete CConfig::m_instance;
+				CConfig::m_instance = NULL;
+			}
+		}
+	};
+
 	// 单例模式创建获取配置的单例变量指针
 	static CConfig* Get_Instance()
 	{
@@ -42,6 +58,7 @@ public:
 			if(m_instance == NULL)
 			{
 				m_instance = new CConfig();
+				static CConfigDestructor destructor;
 			}
 			
 			pthread_mutex_unlock(&lock);
@@ -55,6 +72,12 @@ public:
 
 	// 加载配置文件的函数
 	bool Load(const char* p_conf_name);
+
+	// 获取配置项的值
+	const char* GetString(const char* p_item_name);
+
+	// 获取配置项的值，如果不存在则返回默认值
+	int GetIntDefault(const char* p_item_name, int p_default_value);
 
 	// 存储配置信息的vector容器
 	std::vector<PConfItem> m_config_item_list;
