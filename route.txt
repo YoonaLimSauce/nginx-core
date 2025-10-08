@@ -17,3 +17,6 @@ commit ID: 6b35f55a05373a0cbe3b0e6612e3c9a96e1a18e5
 commit ID: ac9ef6986034a26f619f8b501d9c8c685a1c75c5
 自定义加载配置信息文件的方式, 对于文件流的处理简单直接, 但应当学习、明白配置文件在大型工程项目中的作用, 同时了解CCF配置文件格式
 项目投入实际应用, 应当采用Json、XML等标准格式并结合优秀的相关C语言库进行配置文件的读取、写入
+
+commit ID: 7644b171365768833d9f3357eeea487260d86132
+按照书籍代码提供的Makefile代码进行书写，同时重新书写李云的《驾驭Makefile》，之后可能会对Makefile代码进行修订，不再单独在git中展示修订差异，可以学习cmake、xmake代替使用make+makefile的编译控制模式

@@ -1,0 +1,2 @@
+bar.o: bar.c \
+ /home/O/nginx-core/MyMakeStyle/MasterMakefile/huge/source/bar/inc/bar.h

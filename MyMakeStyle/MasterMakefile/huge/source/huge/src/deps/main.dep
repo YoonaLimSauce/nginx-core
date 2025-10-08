@@ -1,0 +1,5 @@
+main.o: main.c \
+ /home/O/nginx-core/MyMakeStyle/MasterMakefile/huge/source/foo/inc/foo.h \
+ /home/O/nginx-core/MyMakeStyle/MasterMakefile/huge/source/foo/inc/define.h \
+ /home/O/nginx-core/MyMakeStyle/MasterMakefile/huge/source/foo/inc/other.h \
+ /home/O/nginx-core/MyMakeStyle/MasterMakefile/huge/source/bar/inc/bar.h
