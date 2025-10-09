@@ -80,7 +80,7 @@ public:
 	int GetIntDefault(const char* p_item_name, int p_default_value);
 
 	// 存储配置信息的vector容器
-	std::vector<PConfItem> m_config_item_list;
-}
+	std::vector<PCConfItem> m_config_item_list;
+};
 
 #endif

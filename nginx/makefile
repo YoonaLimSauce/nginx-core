@@ -5,7 +5,7 @@ include config.mk
 all:
 	@for dir in $(BUILD_DIR); \
 		do \
-			make -C &&dir; \
+			make -C $$dir; \
 		done
 
 # 删除make自动生成的文件

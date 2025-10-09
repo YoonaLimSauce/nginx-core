@@ -16,7 +16,7 @@ SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 
 # 字符串中.c替换为.d
-DEPS = $(SRCS:.c=.o)
+DEPS = $(SRCS:.c=.d)
 
 # 指定BIN二进制文件的位置
 BIN := $(addprefix $(BUILD_ROOT)/, $(BIN))
@@ -41,10 +41,10 @@ LINK_OBJ += $(OBJS)
 # make 执行入口
 all: $(DEPS) $(OBJS) $(BIN)
 
-	# 需要先判断$(DEPS)目录中的文件是否存在, 否则make会报找不到.d文件的错误
-	ifneq("$(wildcard $(DEPS))", "")
-		include $(DEPS)
-	endif
+# 需要先判断$(DEPS)目录中的文件是否存在, 否则make会报找不到.d文件的错误
+ifneq ("$(wildcard $(DEPS))", "")
+include $(DEPS)
+endif
 
 # ------------------------------------
 
@@ -87,5 +87,5 @@ $(DEP_DIR)/%.d: %.c
 # make clean执行入口
 clean:
 	@echo "------Done Nothing------"
-#	rm -f $(BIN) $(OPJS) $(DEPS) *.gch
+#	rm -f $(BIN) $(OBJS) $(DEPS) *.gch
 # ------------------------------------

@@ -84,7 +84,7 @@ bool CConfig::Load(const char* p_conf_name)
                        memset(p_conf_item, 0, sizeof(CConfItem));
 
                        strncpy(p_conf_item->Item_Name, line_buffer, (int)(p_temporarily - line_buffer));
-                       strncpy(p_conf_item-Item_Content, p_temporarily + 1);
+                       strcpy(p_conf_item->Item_Content, p_temporarily + 1);
 
                        m_config_item_list.push_back(p_conf_item);
                 }
