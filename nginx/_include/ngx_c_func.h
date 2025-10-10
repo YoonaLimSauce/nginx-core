@@ -5,4 +5,8 @@
 void RightTrim(char* string);
 void LeftTrim(char* string);
 
+// 设置可执行程序标题相关函数
+void NgxInitializeProcessTitle();
+void NgxSetProcessTitle(const char* title);
+
 #endif

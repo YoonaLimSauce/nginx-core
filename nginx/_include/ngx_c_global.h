@@ -14,4 +14,10 @@ typedef struct
 	char Item_Content[500];
 }CConfItem, *PCConfItem;
 
+// 外部全局量声明
+// 用于配置Nginx进程名称
+extern char** global_os_argv;
+extern char* globalp_environ_memory;
+extern int global_environ_length;
+
 #endif

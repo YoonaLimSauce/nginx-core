@@ -39,7 +39,7 @@ public:
 	};
 
 	// 单例模式创建获取配置的单例变量指针
-	static CConfig* Get_Instance()
+	static CConfig* GetInstance()
 	{
 		// 加互斥锁
 		pthread_mutex_t lock;

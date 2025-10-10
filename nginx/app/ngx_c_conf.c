@@ -86,6 +86,11 @@ bool CConfig::Load(const char* p_conf_name)
                        strncpy(p_conf_item->Item_Name, line_buffer, (int)(p_temporarily - line_buffer));
                        strcpy(p_conf_item->Item_Content, p_temporarily + 1);
 
+                        RightTrim(p_conf_item->Item_Name);
+                        RightTrim(p_conf_item->Item_Content);
+                        LeftTrim(p_conf_item->Item_Name);
+                        LeftTrim(p_conf_item->Item_Content);
+
                        m_config_item_list.push_back(p_conf_item);
                 }
         }
