@@ -57,22 +57,18 @@ bool CConfig::Load(const char* p_conf_name)
                 }
 
                 // 处理注释
-                if(true)
+                if(false)
                 {
                         // TODO:
-                        continue;
                 }
 
                 // 读取到有效配置信息行
                 // 需要去除读入的char数组中尾部的空格、回车\n、\t
-                if(0 < strlen(line_buffer))
+                while(0 < strlen(line_buffer) && (line_buffer[strlen(line_buffer) - 1] == 10 ||
+                                line_buffer[strlen(line_buffer) - 1] == 13 ||
+                                line_buffer[strlen(line_buffer) - 1] ==32))
                 {
-                        while(line_buffer[strlen(line_buffer) - 1] ||
-                                line_buffer[strlen(line_buffer) - 1] ||
-                                line_buffer[strlen(line_buffer) - 1])
-                        {
-                                line_buffer[strlen(line_buffer) - 1] = '\0';
-                        }
+                        line_buffer[strlen(line_buffer) - 1] = '\0';
                 }
 
                 // 获取到已处理的有效配置信息字符数组
@@ -80,21 +76,57 @@ bool CConfig::Load(const char* p_conf_name)
                 char* p_temporarily = strchr(line_buffer, '=');
                 if(NULL != p_temporarily)
                 {
-                       PCConfItem p_conf_item = new CConfItem();
-                       memset(p_conf_item, 0, sizeof(CConfItem));
+                        PCConfItem p_conf_item = new CConfItem();
+                        memset(p_conf_item, 0, sizeof(CConfItem));
 
-                       strncpy(p_conf_item->Item_Name, line_buffer, (int)(p_temporarily - line_buffer));
-                       strcpy(p_conf_item->Item_Content, p_temporarily + 1);
+                        strncpy(p_conf_item->Item_Name, line_buffer, (int)(p_temporarily - line_buffer));
+                        strcpy(p_conf_item->Item_Content, p_temporarily + 1);
 
                         RightTrim(p_conf_item->Item_Name);
                         RightTrim(p_conf_item->Item_Content);
                         LeftTrim(p_conf_item->Item_Name);
                         LeftTrim(p_conf_item->Item_Content);
 
-                       m_config_item_list.push_back(p_conf_item);
+                        m_config_item_list.push_back(p_conf_item);
                 }
         }
 
         fclose(file_point);
         return true;
+}
+
+// 根据ItemName获取配置信息字符串
+const char* CConfig::GetString(const char* p_item_name)
+{
+        std::vector<PCConfItem>::iterator pos;
+        for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        {
+                if(0 == strcmp((*pos)->Item_Name, p_item_name))
+                {
+                        return (*pos)->Item_Content;
+                }
+        }
+        return NULL;
+}
+
+// 根据ItemName获取数字类型配置信息
+// 需要提供数字类型配置信息的缺省默认值
+int CConfig::GetIntDefault(const char* p_item_name, const int default_value)
+{
+        const char* p_item_content = GetString(p_item_name);
+        if(NULL == p_item_content)
+        {
+                return default_value;
+        }
+        return atoi(p_item_content);
+
+        // std::vector<PCConfItem>::iterator pos;
+        // for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        // {
+        //         if(0 == strcasecmp((*pos)->Item_Name, p_item_name))
+        //         {
+        //                 return atoi((*pos)->Item_Content);
+        //         }
+        // }
+        // return default_value;
 }

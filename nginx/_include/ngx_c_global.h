@@ -14,10 +14,21 @@ typedef struct
 	char Item_Content[500];
 }CConfItem, *PCConfItem;
 
+// 日志结构体
+typedef struct 
+{
+	int Log_Level;		// 日志级别
+	int Fd;				// 日志文件描述符
+}ngx_log_type;
+
+
 // 外部全局量声明
 // 用于配置Nginx进程名称
 extern char** global_os_argv;
 extern char* globalp_environ_memory;
 extern int global_environ_length;
+
+extern pid_t ngx_pid;
+extern ngx_log_type ngx_log;
 
 #endif
