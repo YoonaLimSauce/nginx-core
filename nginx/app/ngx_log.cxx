@@ -10,9 +10,9 @@
 #include <sys/time.h>
 
 #include "ngx_c_conf.h"
-#include "ngx_c_global.h"
-#include "ngx_c_func.h"
-#include "ngx_c_macro.h"
+#include "ngx_global.h"
+#include "ngx_func.h"
+#include "ngx_macro.h"
 
 // 全局变量, 日志等级
 static const u_char error_levels[][20] = 
@@ -112,7 +112,7 @@ void NgxLogErrorCore(int level, int err, const char* fmt, ...)
     time_information.tm_mon++;   // 月份从0开始，所以要加1
     time_information.tm_year += 1900;   // 年份从1900开始，所以要加1900
 
-    u_char string_current_time[40] = {0};       // 组合出一个当前时间字符串，格式形如：2025/10/15 00:25:56
+    u_char string_current_time[32] = {0};       // 组合出一个当前时间字符串，格式形如：2025/10/15 00:25:56
     NgxStringLengthPrintf(string_current_time, (u_char*) -1, "%4d/%02d/%02d %02d:%02d:%02d", time_information.tm_year, time_information.tm_mon, time_information.tm_mday, time_information.tm_hour, time_information.tm_min, time_information.tm_sec);
 
     p = NgxCopyMemory(error_string, string_current_time, strlen((const char*) string_current_time));     
@@ -138,7 +138,7 @@ void NgxLogErrorCore(int level, int err, const char* fmt, ...)
     *p++ = '\n';
 
     ssize_t n = -1;
-    while(1)
+    for(;;)
     {
         // 日志的等级高, 应当直接打印在标准输出到屏幕上
         if(level > ngx_log.Log_Level)

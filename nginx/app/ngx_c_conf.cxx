@@ -7,7 +7,7 @@
 #endif
 
 #include "ngx_c_conf.h"
-#include "ngx_c_func.h"
+#include "ngx_func.h"
 
 /*
  * 定义常量宏
@@ -113,20 +113,20 @@ const char* CConfig::GetString(const char* p_item_name)
 // 需要提供数字类型配置信息的缺省默认值
 int CConfig::GetIntDefault(const char* p_item_name, const int default_value)
 {
-        const char* p_item_content = GetString(p_item_name);
-        if(NULL == p_item_content)
-        {
-                return default_value;
-        }
-        return atoi(p_item_content);
-
-        // std::vector<PCConfItem>::iterator pos;
-        // for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        // const char* p_item_content = GetString(p_item_name);
+        // if(NULL == p_item_content)
         // {
-        //         if(0 == strcasecmp((*pos)->Item_Name, p_item_name))
-        //         {
-        //                 return atoi((*pos)->Item_Content);
-        //         }
+        //         return default_value;
         // }
-        // return default_value;
+        // return atoi(p_item_content);
+
+        std::vector<PCConfItem>::iterator pos;
+        for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        {
+                if(0 == strcasecmp((*pos)->Item_Name, p_item_name))
+                {
+                        return atoi((*pos)->Item_Content);
+                }
+        }
+        return default_value;
 }

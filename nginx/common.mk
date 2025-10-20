@@ -10,13 +10,13 @@ VERSION = release
 endif
 
 # wildcard 函数的核心功能是扩展通配符并返回匹配的文件名
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *.cxx)
 
-# 字符串中.c替换为.o
-OBJS = $(SRCS:.c=.o)
+# 字符串中.cxx替换为.o
+OBJS = $(SRCS:.cxx=.o)
 
-# 字符串中.c替换为.d
-DEPS = $(SRCS:.c=.d)
+# 字符串中.cxx替换为.d
+DEPS = $(SRCS:.cxx=.d)
 
 # 指定BIN二进制文件的位置
 BIN := $(addprefix $(BUILD_ROOT)/, $(BIN))
@@ -52,7 +52,7 @@ endif
 # ------------------------------------
 # 生成可执行文件
 # 命令参数: -o <file>: Place the output into <file>
-$(BIN): $(OBJS)
+$(BIN): $(LINK_OBJ)
 	@echo "------------------------------------build $(VERSION) mode------------------------------------"
 	$(CC) -o $@ $^
 
@@ -60,11 +60,11 @@ $(BIN): $(OBJS)
 
 
 # ------------------------------------
-# 由.c源文件生成.o目标文件
+# 由.cxx源文件生成.o目标文件
 # 命令参数: -o <file>: Place the output into <file>
 # 			-c 		 : Compile and assemble, but do not link
-$(LINK_OBJ_DIR)/%.o: %.c
-	$(CC) -I$(INCLUDE_PATH) -o $@ -c $(filter %.c, $^)
+$(LINK_OBJ_DIR)/%.o: %.cxx
+	$(CC) -I$(INCLUDE_PATH) -o $@ -c $(filter %.cxx, $^)
 
 # ------------------------------------
 
@@ -76,7 +76,7 @@ $(LINK_OBJ_DIR)/%.o: %.c
 # make可以自动重新编译
 # 命令参数: -M: Generate make dependencies with including std headers
 # 			-MM: Generate make dependencies without including std headers
-$(DEP_DIR)/%.d: %.c
+$(DEP_DIR)/%.d: %.cxx
 	echo -n $(LINK_OBJ_DIR)/ > $@
 	$(CC) -I$(INCLUDE_PATH) -MM $^ >> $@
 

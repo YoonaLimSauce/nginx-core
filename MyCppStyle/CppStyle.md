@@ -14,9 +14,10 @@
 	1. ngx		==>		Nginx、NGINX、nginx
 	2. c  		==>		c programming language
 	3. cpp		==>		c++ programming language
-	4. conf		==> 		configuration
+	4. conf		==> 	configuration
 	5. config	==>		configuration
-	6.info		==>		information
+	6. info		==>		information
+	7. m		==>		member
 
 2. 类型命名
 
@@ -36,7 +37,7 @@
 
 	1. 普通变量, 命名采用全小写英文单词结合下划线分割英文单词方式命名
 	2. 类成员变量, 其中非静态成员变量命名在普通变量命名的基础上, 添加下划线_结尾的约定, 静态成员变量命名在非静态成员变量命名的基础上, 添加以_下划线开头的约定
-	3. 结构体变量, 命名约定与普通变量命名约定保持一致
+	3. 结构体变量, 命名约定采用单词首字母大小并使用下划线连接的方式命名
 
 4. 常量命名
 

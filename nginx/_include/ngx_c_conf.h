@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-#include "ngx_c_global.h"
+#include "ngx_global.h"
 
 #ifndef __cplusplus
 #include <stdbool.h>

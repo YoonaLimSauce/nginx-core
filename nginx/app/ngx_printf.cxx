@@ -1,15 +1,15 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
- #include <stdarg.h>
- #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+#include <stdint.h>
 
- #include "ngx_c_global.h"
- #include "ngx_c_macro.h"
- #include "ngx_c_func.h"
+#include "ngx_global.h"
+#include "ngx_macro.h"
+#include "ngx_func.h"
 
- static u_char* NgxStringPrintfNumber(u_char* buf, u_char* const last, uint64_t ui64, u_char zero, uintptr_t hexdecimal, uintptr_t width)
- {
+static u_char* NgxStringPrintfNumber(u_char* buf, u_char* const last, uint64_t ui64, u_char zero, uintptr_t hexdecimal, uintptr_t width)
+{
     u_char temp[NGX_INT64_LENGTH + 1];
     u_char *p = temp + NGX_INT64_LENGTH;
     size_t length = 0;
@@ -45,12 +45,14 @@
         return NULL;
     }
 
+    length = (temp + NGX_INT64_LENGTH) - p;     // // 得到数字的宽度
+
     while(width > length++ && last > buf)
     {
         *buf++ = zero;
     }
 
-    length = (temp + NGX_INT64_LENGTH) - p;
+    length = (temp + NGX_INT64_LENGTH) - p;     // 得到数字的宽度
 
     if(last <= buf + length)
     {
@@ -58,10 +60,10 @@
     }
 
     return NgxCopyMemory(buf, p, length);
- }
+}
 
- u_char* NgxVariableStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, va_list args)
- {
+u_char* NgxVariableStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, va_list args)
+{
     while(*fmt && buf < last)
     {
         u_char zero = 0;
@@ -96,13 +98,13 @@
             while('0' <= *fmt && '9' >= *fmt)
             {
                 // 计算数字的宽度
-                width = 10 * width + (*fmt - '0');
+                width = 10 * width + (*fmt++ - '0');
             }   // end while('0' <= *fmt && '9' >= *fmt), 处理%后边接的字符是'0' --'9'之间的内容
 
             // 特殊格式需要标记特殊标记进行处理
             for( ; ; )
             {
-                switch (*fmt)
+                switch(*fmt)
                 {
                     // %u，u表示无符号
                 case 'u':
@@ -137,6 +139,7 @@
                 default:
                     break;
                 }   // end switch(*fmt)
+                break;
             }   // 一些特殊的格式，我们做一些特殊的标记【给一些变量特殊值等等】
 
             switch(*fmt)
@@ -244,16 +247,16 @@
     }   //end while (*fmt && buf < last)
 
     return buf;
- }
+}
 
- u_char* NgxStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, ...)
- {
+u_char* NgxStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, ...)
+{
     va_list args;
     u_char* p = NULL;
 
     va_start(args, fmt);
-    buf = NgxVariableStringLengthPrintf(buf, last, fmt, args);
+    p = NgxVariableStringLengthPrintf(buf, last, fmt, args);
     va_end(args);
     
     return p;
- }
+}
