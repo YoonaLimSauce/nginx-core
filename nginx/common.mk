@@ -37,6 +37,7 @@ DEPS := $(addprefix $(DEP_DIR)/, $(DEPS))
 LINK_OBJ = $(wildcard $(LINK_OBJ_DIR)/*.o)
 LINK_OBJ += $(OBJS)
 
+
 # ------------------------------------
 # make 执行入口
 all: $(DEPS) $(OBJS) $(BIN)

@@ -1,5 +1,5 @@
-#ifndef __NGX_C_FUNC_H__
-#define __NGX_C_FUNC_H__
+#ifndef __NGX_FUNC_H__
+#define __NGX_FUNC_H__
 
 // 字符串处理函数
 void    RightTrim(char* string);

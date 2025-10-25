@@ -24,11 +24,11 @@ CConfig::CConfig()
 CConfig::~CConfig()
 {
         std::vector<PCConfItem>::iterator pos;
-        for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        for(pos = member_config_item_list.begin(); pos != member_config_item_list.end(); ++pos)
         {
                 delete (*pos);
         }
-        m_config_item_list.clear();
+        member_config_item_list.clear();
 }
 
 bool CConfig::Load(const char* p_conf_name)
@@ -87,7 +87,7 @@ bool CConfig::Load(const char* p_conf_name)
                         LeftTrim(p_conf_item->Item_Name);
                         LeftTrim(p_conf_item->Item_Content);
 
-                        m_config_item_list.push_back(p_conf_item);
+                        member_config_item_list.push_back(p_conf_item);
                 }
         }
 
@@ -99,7 +99,7 @@ bool CConfig::Load(const char* p_conf_name)
 const char* CConfig::GetString(const char* p_item_name)
 {
         std::vector<PCConfItem>::iterator pos;
-        for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        for(pos = member_config_item_list.begin(); pos != member_config_item_list.end(); ++pos)
         {
                 if(0 == strcmp((*pos)->Item_Name, p_item_name))
                 {
@@ -121,7 +121,7 @@ int CConfig::GetIntDefault(const char* p_item_name, const int default_value)
         // return atoi(p_item_content);
 
         std::vector<PCConfItem>::iterator pos;
-        for(pos = m_config_item_list.begin(); pos != m_config_item_list.end(); ++pos)
+        for(pos = member_config_item_list.begin(); pos != member_config_item_list.end(); ++pos)
         {
                 if(0 == strcasecmp((*pos)->Item_Name, p_item_name))
                 {

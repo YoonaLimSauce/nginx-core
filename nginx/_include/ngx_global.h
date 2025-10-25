@@ -1,5 +1,5 @@
-#ifndef __NGX_C_GLOBAL_H__
-#define __NGX_C_GLOBAL_H__
+#ifndef __NGX_GLOBAL_H__
+#define __NGX_GLOBAL_H__
 
 #include <signal.h>
 

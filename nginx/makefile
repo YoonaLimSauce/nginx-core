@@ -1,3 +1,5 @@
+.PHONY: all clean
+
 include config.mk
 
 # 用shell命令@for循环在子文件夹中执行make命令

@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h>
 
+#include "ngx_macro.h"      // 宏定义
 #include "ngx_c_conf.h"     // 和配置文件处理相关的类,名字带c_表示和类有关
 #include "ngx_func.h"       // 函数声明
+#include "ngx_c_socket.h"   // ocket通讯
 
 // 定义配置文件名称宏
 #define NGX_CONF_FILE "nginx.conf"
@@ -25,6 +28,9 @@ pid_t           ngx_pid = -1;           // 当前进程的pid
 pid_t           ngx_parent = -1;        // 父进程的pid
 int             ngx_process = -1;       // 进程类型: master进程, worker进程
 sig_atomic_t    ngx_reap = -1;          // 标记子进程状态变化[一般是子进程发来SIGCHLD信号表示退出]
+
+// socket套接字相关的全局变量
+CSocket global_socket;                  // socket全局变量
 
 int main(int argc, char* const* argv)
 {
@@ -50,7 +56,7 @@ int main(int argc, char* const* argv)
 
     // (2)  配置文件必须最先要，后边一切初始化操作都需要配置文件中的参数
     CConfig* point_config = CConfig::GetInstance();     // 单例
-    point_config->m_config_item_list.clear(); 
+    point_config->member_config_item_list.clear(); 
     if(false == point_config->Load(NGX_CONF_FILE))
     {
         NgxLogStandardError(0, "配置文件[%s]载入失败, 退出!", NGX_CONF_FILE);
@@ -67,16 +73,23 @@ int main(int argc, char* const* argv)
 
     // (3)  初始化函数集中在这里执行
     NgxLogInitialize();    // 初始化日志模块(创建/打开日志文件)
-    if(0 != NgxInitializeSignals())
+
+    if(0 != NgxInitializeSignals())     // 信号初始化
     {
         exit_code = 1;
         
         goto label_exit;
     }
-    NgxInitializeProcessTitle();    // 拷贝环境变量参数信息到新内存地址
+
+    if(false == global_socket.Initialize())     // 初始化socket
+    {
+        exit_code = 1;
+        goto label_exit;
+    }
     
     // (4)  初始化内存环境后伴随执行、在主任务前应当执行的一系列函数在这里执行
     // NgxSetProcessTitle("nginx: master process");   // 设置进程标题, 该函数被移入 NgxInitializeSignals() 函数中执行
+    NgxInitializeProcessTitle();    // 拷贝环境变量参数信息到新内存地址
 
     // (5)  无法归类的必要执行函数
 
