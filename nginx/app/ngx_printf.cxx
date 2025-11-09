@@ -62,7 +62,7 @@ static u_char* NgxStringPrintfNumber(u_char* buf, u_char* const last, uint64_t u
     return NgxCopyMemory(buf, p, length);
 }
 
-u_char* NgxVariableStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, va_list args)
+u_char* NgxVariableStringLastPrintf(u_char* buf, u_char* const last, const char* fmt, va_list args)
 {
     while(*fmt && buf < last)
     {
@@ -249,14 +249,26 @@ u_char* NgxVariableStringLengthPrintf(u_char* buf, u_char* const last, const cha
     return buf;
 }
 
-u_char* NgxStringLengthPrintf(u_char* buf, u_char* const last, const char* fmt, ...)
+u_char* NgxStringLastPrintf(u_char* buf, u_char* const last, const char* fmt, ...)
 {
     va_list args;
     u_char* p = NULL;
 
     va_start(args, fmt);
-    p = NgxVariableStringLengthPrintf(buf, last, fmt, args);
+    p = NgxVariableStringLastPrintf(buf, last, fmt, args);
     va_end(args);
     
+    return p;
+}
+
+u_char* NgxStringLengthPrintf(u_char* buf, size_t max, const char* fmt, ...)
+{
+    u_char* p;
+    va_list args;
+
+    va_start(args, fmt);
+    p = NgxVariableStringLastPrintf(buf, buf + max, fmt, args);
+    va_end(args);
+
     return p;
 }

@@ -3,6 +3,8 @@
 
 #include <signal.h>
 
+#include "ngx_c_socket.h"
+
 /*
  * 配置文件存取结构体定义
  * Item_Name 存储配置项目名
@@ -32,6 +34,7 @@ extern int 		global_os_argc;
 extern int		global_daemonized;
 extern size_t 	global_argv_need_memory;
 extern size_t 	global_environment_need_memory;
+extern CSocket	global_socket;
 
 extern int				ngx_process;
 extern pid_t 			ngx_pid;

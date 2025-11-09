@@ -40,7 +40,7 @@ void NgxLogStandardError(int error, const char* fmt, ...)
     p = NgxCopyMemory(error_string, "nginx: ", 7);            // p指向"nginx: "之后
 
     va_start(args, fmt);        // 使args指向起始的参数
-    p = NgxVariableStringLengthPrintf(p, last, fmt, args);      // 组合出错误信息字符串保存在error_string里
+    p = NgxVariableStringLastPrintf(p, last, fmt, args);      // 组合出错误信息字符串保存在error_string里
     va_end(args);               // 释放args
 
     if (error)      // 如果错误代码不是0，表示有错误发生
@@ -113,15 +113,15 @@ void NgxLogErrorCore(int level, int err, const char* fmt, ...)
     time_information.tm_year += 1900;   // 年份从1900开始，所以要加1900
 
     u_char string_current_time[32] = {0};       // 组合出一个当前时间字符串，格式形如：2025/10/15 00:25:56
-    NgxStringLengthPrintf(string_current_time, (u_char*) -1, "%4d/%02d/%02d %02d:%02d:%02d", time_information.tm_year, time_information.tm_mon, time_information.tm_mday, time_information.tm_hour, time_information.tm_min, time_information.tm_sec);
+    NgxStringLastPrintf(string_current_time, (u_char*) -1, "%4d/%02d/%02d %02d:%02d:%02d", time_information.tm_year, time_information.tm_mon, time_information.tm_mday, time_information.tm_hour, time_information.tm_min, time_information.tm_sec);
 
     p = NgxCopyMemory(error_string, string_current_time, strlen((const char*) string_current_time));     
-    p = NgxStringLengthPrintf(p, last, " [%s] ", error_levels[level]);
-    p = NgxStringLengthPrintf(p, last, "%P: ", ngx_pid);
+    p = NgxStringLastPrintf(p, last, " [%s] ", error_levels[level]);
+    p = NgxStringLastPrintf(p, last, "%P: ", ngx_pid);
     
     va_list args;
     va_start(args, fmt);
-    p = NgxVariableStringLengthPrintf(p, last, fmt, args);
+    p = NgxVariableStringLastPrintf(p, last, fmt, args);
     va_end(args);
 
     if(err)     // 如果错误代码不是0，表示有错误发生

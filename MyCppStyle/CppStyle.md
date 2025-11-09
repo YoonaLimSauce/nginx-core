@@ -18,6 +18,7 @@
 	5. config	==>		configuration
 	6. info		==>		information
 	7. m		==>		member
+	8. fd		==>		file descriptor
 
 2. 类型命名
 

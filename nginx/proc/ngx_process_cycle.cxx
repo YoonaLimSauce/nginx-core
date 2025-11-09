@@ -63,8 +63,8 @@ void NgxMasterProcessCycle()
     }
 
     // (3)  从配置文件中读取要创建的worker进程数量
-    CConfig* point_config = CConfig::GetInstance();     // 单例类
-    int work_process = point_config->GetIntDefault("WorkProcesses", 1);     // 从配置文件中得到要创建的worker进程数量
+    CConfig* point_configuration = CConfig::GetInstance();     // 单例类
+    int work_process = point_configuration->GetIntDefault("WorkProcesses", 1);     // 从配置文件中得到要创建的worker进程数量
     NgxStartWorkerProcesses(work_process);      // 创建worker子进程
 
     // 创建子进程后，父进程的执行流程会到这里，子进程不会

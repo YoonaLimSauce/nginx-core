@@ -24,10 +24,10 @@ size_t  global_argv_need_memory = 0;          // 保存下argv参数所需要的
 size_t  global_environment_need_memory = 0;  // 环境变量所占内存大小
 
 // 进程本身有关的全局变量
-pid_t           ngx_pid = -1;           // 当前进程的pid
-pid_t           ngx_parent = -1;        // 父进程的pid
-int             ngx_process = -1;       // 进程类型: master进程, worker进程
-sig_atomic_t    ngx_reap = -1;          // 标记子进程状态变化[一般是子进程发来SIGCHLD信号表示退出]
+pid_t           ngx_pid;           // 当前进程的pid
+pid_t           ngx_parent;        // 父进程的pid
+int             ngx_process;       // 进程类型: master进程, worker进程
+sig_atomic_t    ngx_reap;          // 标记子进程状态变化[一般是子进程发来SIGCHLD信号表示退出]
 
 // socket套接字相关的全局变量
 CSocket global_socket;                  // socket全局变量
@@ -53,6 +53,11 @@ int main(int argc, char* const* argv)
 
     global_os_argc = argc;              // 保存参数个数
     global_os_argv = (char**) argv;     // 保存参数指针
+
+    // 初始化部分全局变量
+    ngx_log.Fd = -1;                        // -1：表示日志文件尚未打开
+    ngx_process = NGX_PROCESS_MASTER;       // 标记本进程是master进程
+    ngx_reap = 0;                           // 标记子进程没有发生变化
 
     // (2)  配置文件必须最先要，后边一切初始化操作都需要配置文件中的参数
     CConfig* point_config = CConfig::GetInstance();     // 单例
@@ -116,7 +121,7 @@ int main(int argc, char* const* argv)
         global_daemonized = 1;      // 守护进程标记
     }
 
-    // (5)  开始正式的主工作流程，主流程一致在下边这个函数里循环，暂时不会跳出循环
+    // (7)  开始正式的主工作流程，主流程一致在下边这个函数里循环，暂时不会跳出循环
     NgxMasterProcessCycle();        // 父进程、子进程，正常工作期间都在这个函数里循环
 
 label_exit:

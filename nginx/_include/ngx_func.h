@@ -14,8 +14,9 @@ void        NgxLogInitialize();
 void        NgxLogStandardError(int error, const char* fmt, ...);
 void        NgxLogErrorCore(int level, int err, const char* fmt, ...);
 u_char*     NgxLogErrorNumber(u_char* buf, u_char* last, int error_number);
-u_char*     NgxStringLengthPrintf(u_char* buf, u_char* last, const char* fmt, ...);
-u_char*     NgxVariableStringLengthPrintf(u_char* buf, u_char* last, const char* fmt, va_list args);
+u_char*     NgxStringLengthPrintf(u_char* buf, size_t max, const char* fmt, ...);
+u_char*     NgxStringLastPrintf(u_char* buf, u_char* const last, const char* fmt, ...);
+u_char*     NgxVariableStringLastPrintf(u_char* buf, u_char* last, const char* fmt, va_list args);
 
 // 信号、进程相关函数
 int     NgxInitializeSignals();
